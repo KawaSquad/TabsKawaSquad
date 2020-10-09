@@ -8,8 +8,6 @@ public class TabsEditorNew : TabsMenu
 {
     public InputField fileNameInputfield;
 
-    public UnityEvent OnNewTabsValidated;
-
     public override void ShowMenu(bool isShown)
     {
         base.ShowMenu(isShown);
@@ -33,10 +31,14 @@ public class TabsEditorNew : TabsMenu
         }
 
 
-        if (isValid && OnNewTabsValidated != null)
+        if (isValid)
         {
             DisplayError(fileNameInputfield);
-            OnNewTabsValidated.Invoke();
+            TabsEditorManager inst = TabsEditorManager.standalone;
+            if (inst == null)
+                return;
+
+            inst.CreateNewTabs(content);
         }
     }
 

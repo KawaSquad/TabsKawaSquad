@@ -4,21 +4,29 @@ using System.Text;
 using System.IO;
 using UnityEngine;
 
-public class TabsEncoder : MonoBehaviour
+public static class TabsEncoder
 {
-    static string GetFilePath(string filename)
+    public static string GetFilePath(string filename)
     {
         string folderPath = Application.persistentDataPath;
         string filePath = folderPath + "/Tabs/" + filename + ".txt";
 
         return filePath;
     }
-    static string GetFolderPath(string filename)
+    public static string GetFolderPath(string filename = "")
     {
         string folderPath = Application.persistentDataPath;
         string fileFolderPath = folderPath + "/Tabs/";
 
         return fileFolderPath;
+    }
+
+    public static string[] GetTabsFiles()
+    {
+        string folder = GetFolderPath();
+        string[] files = Directory.GetFiles(folder);
+
+        return files;
     }
 
     public static string ReadTabsFile(string filename)
