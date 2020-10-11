@@ -6,7 +6,8 @@ public class TabsEditorManager : MonoBehaviour
 {
     public static TabsEditorManager standalone;
 
-    string m_CurrentTrackFile;
+    public TabsFile sampleTrackFile;
+    TabsFile m_CurrentTrackFile;
 
     void Awake()
     {
@@ -31,8 +32,10 @@ public class TabsEditorManager : MonoBehaviour
 
         inst.OpenMenu("EditorTrack");
 
-        m_CurrentTrackFile = TabsEncoder.GetFilePath(newFilename);
+        m_CurrentTrackFile = Instantiate(sampleTrackFile);
+        m_CurrentTrackFile.Initialize(newFilename);
 
+        SaveCurrentTrack();
 
         //setup tracks
     }
@@ -43,6 +46,15 @@ public class TabsEditorManager : MonoBehaviour
 
     public void SaveCurrentTrack()
     {
-        TabsEncoder.WriteTabsFile(m_CurrentTrackFile, "NewFile");
+        if(m_CurrentTrackFile == null)
+        {
+            Debug.Log("Track empty") ;
+            return;
+        }
+
+        string content = m_CurrentTrackFile.GetFileStruct();
+        content += "\n" + "Sample file = ------3--5-66--5-";
+
+        TabsEncoder.WriteTabsFile(m_CurrentTrackFile.TrackName, content);
     }
 }

@@ -29,13 +29,36 @@ public static class TabsEncoder
         return files;
     }
 
+    public static TabsFileInfo ReadTabsPreview(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            FileStream stream = File.OpenRead(filePath);
+            if (stream.CanRead)
+            {
+                string[] lines = File.ReadAllLines(filePath);
+
+                if (lines.Length > 1)
+                {
+                    TabsFileInfo trackInfo = JsonUtility.FromJson<TabsFileInfo>(lines[0]);
+                    if (trackInfo != null)
+                    {
+                        stream.Close();
+                        return trackInfo;
+                    }
+                }
+            }
+            stream.Close();
+        }
+        return null;
+    }
+
     public static string ReadTabsFile(string filename)
     {
         string filePath = GetFilePath(filename);
         if (File.Exists(filePath))
         {
-            byte[] buffer = File.ReadAllBytes(filePath);
-            string content = Encoding.UTF8.GetString(buffer);
+            string content = File.ReadAllText(filePath);
 
             Debug.Log(content);
             return content;

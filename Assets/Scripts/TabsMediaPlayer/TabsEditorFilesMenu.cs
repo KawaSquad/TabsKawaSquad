@@ -14,8 +14,8 @@ public class TabsEditorFilesMenu : TabsMenu
     {
         base.ShowMenu(isShown);
 
-        if(isShown)
-        RefreshFiles();
+        if (isShown)
+            RefreshFiles();
     }
 
     public void RefreshFiles()
@@ -23,7 +23,7 @@ public class TabsEditorFilesMenu : TabsMenu
         TabsFile[] oldFiles = filesContainer.GetComponentsInChildren<TabsFile>();
         for (int i = 0; i < oldFiles.Length; i++)
         {
-            Destroy(oldFiles[i]);
+            Destroy(oldFiles[i].gameObject);
         }
 
 
@@ -31,10 +31,13 @@ public class TabsEditorFilesMenu : TabsMenu
         for (int i = 0; i < files.Length; i++)
         {
             string filePath = files[i];
+            TabsFileInfo trackInfo = TabsEncoder.ReadTabsPreview(filePath);
 
-            TabsFile newFile = Instantiate(sampleFile);
-
-            newFile.transform.parent = filesContainer;
+            if (trackInfo != null)
+            {
+                TabsFile newFile = Instantiate(sampleFile, filesContainer);
+                newFile.Initialize(trackInfo);
+            }
         }
     }
 
