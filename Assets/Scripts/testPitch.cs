@@ -13,23 +13,35 @@ public class testPitch : MonoBehaviour
 
     public float transpose = -4;  // transpose in semitones
 
+    public float speed = 0.5f;
+    public float delaySpeed = 0.5f;
+
     IEnumerator Start()
     {
         yield return new WaitForSeconds(1f);
 
-        float delay = 0.5f;
 
-        for (int i = 0; i < 4; i++)
-        {
 
-            yield return StartCoroutine(MakeNote('A', 3, delay));
-            yield return StartCoroutine(MakeNote('D', 5, delay));
-            yield return StartCoroutine(MakeNote('A', 6, delay));
-            //yield return StartCoroutine(MakeNote('A', 6, delay));
-            yield return StartCoroutine(MakeNote('G', 5, delay));
+        yield return StartCoroutine(MakeNote('E', 0, speed));
+        yield return StartCoroutine(MakeNote('E', 3, speed));
+        yield return StartCoroutine(MakeNote('E', 5, speed));
 
-            yield return new WaitForSeconds(0.5f);
-        }
+        yield return new WaitForSeconds(0.5f);
+
+        yield return StartCoroutine(MakeNote('E', 0, speed));
+        yield return StartCoroutine(MakeNote('E', 3, speed));
+        yield return StartCoroutine(MakeNote('E', 6, delaySpeed));
+        yield return StartCoroutine(MakeNote('E', 5, speed));
+
+        yield return new WaitForSeconds(0.5f);
+
+        yield return StartCoroutine(MakeNote('E', 0, speed));
+        yield return StartCoroutine(MakeNote('E', 3, speed));
+        yield return StartCoroutine(MakeNote('E', 5, speed));
+        yield return StartCoroutine(MakeNote('E', 3, speed));
+        yield return StartCoroutine(MakeNote('E', 0, speed));
+
+        yield return new WaitForSeconds(0.5f);
     }
     IEnumerator MakeNote(char line, int fret, float delay)
     {
